@@ -87,7 +87,7 @@ const btnObject = document.querySelector('.btn-filter.object');
 
 /* filter function button active */
 
-// Création d'un ensemble vide pour stocker les boutons
+// Création d'un ensemble vide pour stocker les boutons (une liste de catégories sans doublons avec set)
 const button = new Set();
 
 // Ajout des boutons à l'ensemble avec la méthode add
