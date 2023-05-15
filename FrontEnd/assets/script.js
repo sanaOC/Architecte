@@ -6,7 +6,6 @@ const gallery = document.querySelector(".gallery");
 // Sélectionner l'élément HTML avec l'ID "portfolio" et le stocker dans la variable "portfolio"
 const portfolio = document.getElementById("#portfolio");
 
-
 /* display filter function */
 function portfolioFiltered(filteredTool) {
     // Sélectionne l'élément HTML avec la classe "gallery"
@@ -41,74 +40,55 @@ function portfolioFiltered(filteredTool) {
 };
 
 /* Récupérer les données de l'API */
-let response;
-
-fetch("http://localhost:5678/api/works")
-    .then(function (response) {
-        if (response.ok) {
-            return response.json();
-        }
-        else {
-            throw new Error('Il y a une erreur quant à la réponse de l\'API');
-        }
+fetch('http://localhost:5678/api/works')
+  .then(function (response) {
+    if (response.ok) {
+      return response.json()
+    } else {
+      throw new Error("Il y a une erreur quant à la réponse de l'API")
+    }
+  })
+  .then(function (data) {
+    btnObject.addEventListener('click', function () {
+        let filteredWorks = data.filter(obj => obj.category.name === 'Objets')
+        portfolioFiltered(filteredWorks)
     })
-    .then(function (data) {
-        btnObject.addEventListener('click', function () {
-            let filteredTool = Object.entries(data).reduce((obj, [key, value]) => {
-                if (value.category.name === 'Objets') {
-                    obj[key] = value;
-                }
-                return obj;
-            }, {});
-            portfolioFiltered(filteredTool);
-        });
-    
-        btnAll.addEventListener('click', function () {
-            let filteredTool = Object.entries(data).reduce((obj, [key, value]) => {
-                obj[key] = value;
-                return obj;
-            }, {});
-            portfolioFiltered(filteredTool);
-        });
-    
-        btnAppartment.addEventListener('click', function () {
-            let filteredTool = Object.entries(data).reduce((obj, [key, value]) => {
-                if (value.category.name === 'Appartements') {
-                    obj[key] = value;
-                }
-                return obj;
-            }, {});
-            portfolioFiltered(filteredTool);
-        });
-    
-        btnHotel.addEventListener('click', function () {
-            let filteredTool = Object.entries(data).reduce((obj, [key, value]) => {
-                if (value.category.name === 'Hotels & restaurants') {
-                    obj[key] = value;
-                }
-                return obj;
-            }, {}); 
-            portfolioFiltered(filteredTool);
+
+    btnAll.addEventListener('click', function () {
+        portfolioFiltered(data)
+    })
+
+    btnAppartment.addEventListener('click', function () {
+        let filteredWorks = data.filter(
+            obj => obj.category.name === 'Appartements'
+        )
+    portfolioFiltered(filteredWorks)
+    })
+
+    btnHotel.addEventListener('click', function () {
+        let filteredWorks = data.filter(
+            obj => obj.category.name === 'Hotels & restaurants'
+        )
+        portfolioFiltered(filteredWorks)
+    })
+    return data
+  })
+  .then(works => {
+    works.forEach(work => {
+        let figure = document.createElement('figure')
+
+        let img = document.createElement('img')
+        img.src = work.imageUrl
+        img.crossOrigin = 'anonymous'
+        figure.appendChild(img)
+
+        let figcaption = document.createElement('figcaption')
+        figcaption.innerHTML = work.title
+        figure.appendChild(figcaption)
+
+        gallery.appendChild(figure)
         })
-        return data;
-    })
-     .then(function (works) {
-        for (let i = 0; i < works.length; i++) {
-            let work = works[i];
-            let figure = document.createElement("figure");
-            
-            let img = document.createElement("img");
-            img.src = work.imageUrl;
-            img.crossOrigin = "anonymous";
-            figure.appendChild(img);
-            
-            let figcaption = document.createElement("figcaption");
-            figcaption.innerHTML = work.title;
-            figure.appendChild(figcaption);
-
-            gallery.appendChild(figure);
-        }
-    });
+  })
 
 const btnAll = document.querySelector('.btn-filter.green');
 const btnAppartment = document.querySelector('.btn-filter.appartment');
@@ -116,22 +96,29 @@ const btnHotel = document.querySelector('.btn-filter.hotel');
 const btnObject = document.querySelector('.btn-filter.object');
 
 /* filter function button active */
+
+// Création d'un tableau vide pour stocker les boutons
 const button = [];
+// Ajout des boutons dans le tableau avec la méthode push
 button.push(btnAll);
 button.push(btnAppartment); 
 button.push(btnHotel);
 button.push(btnObject);
 
+
 for (const btn of button) {
     btn.addEventListener("click", function() {
-       for (const btn of button) {
-                btn.style.backgroundColor = "#ffffff";
-                btn.style.color = "#1D6154";
-       }
-        this.style.backgroundColor = "#1D6154";
-        this.style.color = "#ffffff";
+      // Réinitialisation du style de tous les boutons
+      button.forEach(btn => {
+        btn.classList.remove("button-active");
+        btn.classList.add("button-inactive");
+      });
+  
+      // Application du nouveau style au bouton actuellement cliqué
+      this.classList.remove("button-inactive");
+      this.classList.add("button-active");
     });
-};
+  };
 
 
 

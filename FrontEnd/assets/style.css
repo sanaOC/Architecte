@@ -176,6 +176,16 @@ li:hover {
 	background: #1D6154;
 	color: white;
 }
+
+.button-active {
+	background-color: #1D6154;
+	color: #ffffff;
+}
+  
+.button-inactive {
+	background-color: #ffffff;
+	color: #1D6154;
+}
 /**/
 
 #contact {
