@@ -1,5 +1,4 @@
 
-
 // Sélectionner tous les éléments HTML avec la classe "gallery" et les stocker dans la variable "gallery"
 const gallery = document.querySelector(".gallery");
 
@@ -15,28 +14,19 @@ function portfolioFiltered(filteredTool) {
     gallery.innerHTML = '';
       
     // Parcourt l'objet "filteredTool" avec une boucle "for...in"
-    for (let key in filteredTool) {
-        // Crée un élément HTML de type "figure"
+    Object.values(filteredTool).forEach((tool) => {
         let figure = document.createElement('figure');
-      
-        // Ajoute l'élément "figure" à l'élément "gallery"
         gallery.appendChild(figure);
-    
-        // Crée un élément HTML de type "img" et lui assigne la source de l'image
+      
         let img = document.createElement('img');
-        img.src = filteredTool[key].imageUrl;
-    
-        // Ajoute l'élément "img" à l'élément "figure" et spécifie que l'image est de source externe
+        img.src = tool.imageUrl;
         figure.appendChild(img);
         img.crossOrigin = 'anonymous';
-    
-        // Crée un élément HTML de type "figcaption" et lui assigne le titre de l'image
-        let figcaption = document.createElement('figcaption');
-        figcaption.innerHTML = filteredTool[key].title;
       
-        // Ajoute l'élément "figcaption" à l'élément "figure"
+        let figcaption = document.createElement('figcaption');
+        figcaption.innerHTML = tool.title;
         figure.appendChild(figcaption);
-    }
+      });
 };
 
 /* Récupérer les données de l'API */
@@ -97,14 +87,14 @@ const btnObject = document.querySelector('.btn-filter.object');
 
 /* filter function button active */
 
-// Création d'un tableau vide pour stocker les boutons
-const button = [];
-// Ajout des boutons dans le tableau avec la méthode push
-button.push(btnAll);
-button.push(btnAppartment); 
-button.push(btnHotel);
-button.push(btnObject);
+// Création d'un ensemble vide pour stocker les boutons
+const button = new Set();
 
+// Ajout des boutons à l'ensemble avec la méthode add
+button.add(btnAll);
+button.add(btnAppartment);
+button.add(btnHotel);
+button.add(btnObject);
 
 for (const btn of button) {
     btn.addEventListener("click", function() {
