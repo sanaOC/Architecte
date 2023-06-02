@@ -1,8 +1,7 @@
 # Portfolio-sophie-bluel - Architecte d'interieur -
 
-
-
-L'objectif est d'ajouter des fonctionalités à l'aide de `Javascript` portfolio de "__Sophie Bluel__" (voir l'image ci-dessous).
+* 
+* 
 
  <img src="https://github.com/sanaOC/Architecte-Sophie-Bluel/blob/main/Sophie.png" />
 
